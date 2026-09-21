@@ -1,0 +1,13 @@
+# Configuration de l'hébergement Netlify
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# L'espace rédaction ne doit pas être indexé par les moteurs de recherche
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
