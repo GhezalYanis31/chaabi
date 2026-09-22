@@ -1,0 +1,74 @@
+---
+import { RUBRIQUES } from '../data/rubriques';
+import { EPIGRAPHE_COURTE } from '../data/citations';
+import reglages from '../data/reglages.json';
+import { typo } from '../lib/typo';
+
+const annee = new Date().getFullYear();
+const insta = reglages.instagram?.trim();
+const tiktok = reglages.tiktok?.trim();
+const email = reglages.email?.trim();
+const lienReseau = (base: string, compte: string) =>
+  compte.startsWith('http') ? compte : `${base}${compte.replace(/^@/, '')}`;
+---
+
+<footer class="pied">
+  <div class="cadre">
+    <figure class="pied-epigraphe">
+      <blockquote lang="ar" dir="rtl">{EPIGRAPHE_COURTE.arabe}</blockquote>
+      <figcaption>
+        <p>«&#8239;{typo(EPIGRAPHE_COURTE.traduction)}&#8239;»</p>
+        <p class="source">{EPIGRAPHE_COURTE.source}, {EPIGRAPHE_COURTE.traducteur}</p>
+      </figcaption>
+    </figure>
+
+    <div class="pied-colonnes">
+      <div>
+        <a class="marque" href="/">CHAABI</a>
+        <p class="pied-signature">{typo(reglages.signature)}</p>
+      </div>
+      <div>
+        <h2>Rubriques</h2>
+        <ul>
+          {RUBRIQUES.map((r) => <li><a href={`/${r.slug}/`}>{r.nom}</a></li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>Le magazine</h2>
+        <ul>
+          <li><a href="/a-propos/">À propos</a></li>
+          <li>
+            {email ? <a href={`mailto:${email}`}>Nous écrire</a> : <span class="a-completer">Nous écrire : adresse à créer</span>}
+          </li>
+          <li><a href="#lettre">La lettre mensuelle</a></li>
+          <li><a href="/rss.xml">Flux RSS</a></li>
+          <li><a href="/mentions-legales/">Mentions légales</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Suivre</h2>
+        <ul>
+          <li>
+            {insta ? <a href={lienReseau('https://www.instagram.com/', insta)} rel="me noopener" target="_blank">Instagram</a> : <span class="a-completer">Instagram : compte à ouvrir</span>}
+          </li>
+          <li>
+            {tiktok ? <a href={lienReseau('https://www.tiktok.com/@', tiktok)} rel="me noopener" target="_blank">TikTok</a> : <span class="a-completer">TikTok : compte à ouvrir</span>}
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Composition</h2>
+        <ul class="composition">
+          <li>Archivo<span>Omnibus-Type</span></li>
+          <li>Literata<span>TypeTogether</span></li>
+          <li>Amiri<span>Khaled Hosny</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pied-bas">
+      <span>© {annee} CHAABI</span>
+      <a href="/mentions-legales/">Mentions légales</a>
+    </div>
+  </div>
+</footer>

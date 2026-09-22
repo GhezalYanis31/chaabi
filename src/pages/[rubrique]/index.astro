@@ -1,0 +1,61 @@
+---
+import Base from '../../layouts/Base.astro';
+import Cascade from '../../components/Cascade.astro';
+import CitationArabe from '../../components/Citation.astro';
+import Spec from '../../components/Spec.astro';
+import SpecCitation from '../../components/SpecCitation.astro';
+import { RUBRIQUES, type Rubrique } from '../../data/rubriques';
+import { articlesPublies, nombre, pluriel } from '../../lib/articles';
+import { typo } from '../../lib/typo';
+
+export function getStaticPaths() {
+  return RUBRIQUES.map((r) => ({ params: { rubrique: r.slug }, props: { rubrique: r } }));
+}
+
+interface Props {
+  rubrique: Rubrique;
+}
+const { rubrique } = Astro.props;
+const articles = (await articlesPublies()).filter((a) => a.data.rubrique === rubrique.slug);
+---
+
+<Base titre={rubrique.nom} description={rubrique.presentation} actif={rubrique.slug}>
+  <header class="planche vermillon">
+    <div class="cadre specimen">
+      <div>
+        <h1 class="rubrique-nom">{rubrique.nom}</h1>
+        <p class="rubrique-presentation">{typo(rubrique.presentation)}</p>
+      </div>
+      <Spec
+        paires={[
+          { libelle: 'Rubrique', texte: rubrique.nom },
+          { libelle: 'Textes', texte: nombre(articles.length) },
+          { libelle: 'Source', texte: typo(rubrique.citation.source.split(',')[0]) },
+        ]}
+      />
+    </div>
+  </header>
+
+  <section class="planche" aria-label="Citation de la rubrique">
+    <div class="cadre specimen">
+      <CitationArabe citation={rubrique.citation} grande />
+      <SpecCitation citation={rubrique.citation} />
+    </div>
+  </section>
+
+  <section class="planche gris" aria-labelledby="titre-textes">
+    <div class="cadre specimen">
+      <div class="spec-titre">
+        <h2 id="titre-textes">Les textes</h2>
+        <p>{pluriel(articles.length, 'texte')}</p>
+      </div>
+      {
+        articles.length > 0 ? (
+          <Cascade articles={articles} masquerRubrique />
+        ) : (
+          <p class="vide">Rien dans cette rubrique pour l’instant. Les premiers textes arrivent bientôt.</p>
+        )
+      }
+    </div>
+  </section>
+</Base>

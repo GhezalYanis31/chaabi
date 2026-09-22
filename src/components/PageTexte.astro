@@ -1,0 +1,37 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { typo } from '../lib/typo';
+
+interface Props {
+  id: string;
+  actif?: string;
+}
+const { id, actif } = Astro.props;
+const page = await getEntry('pages', id);
+if (!page) throw new Error(`Page introuvable : src/content/pages/${id}.md`);
+const { Content } = await render(page);
+---
+
+<Base titre={page.data.titre} description={page.data.chapo} actif={actif}>
+  <header class="planche">
+    <div class="cadre specimen">
+      <div>
+        <h1 class="titre-specimen moyen compose">{page.data.titre}</h1>
+        {page.data.chapo && <p class="chapo chapo-page">{typo(page.data.chapo)}</p>}
+      </div>
+      <slot name="spec" />
+    </div>
+  </header>
+  <slot name="avant" />
+  <div class="planche">
+    <div class="cadre specimen corps-specimen">
+      <div class="spec-col"></div>
+      <div>
+        <div class="prose"><Content /></div>
+        <slot name="apres" />
+      </div>
+    </div>
+  </div>
+  <slot name="fin" />
+</Base>

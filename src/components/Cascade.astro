@@ -1,0 +1,40 @@
+---
+import { rubriqueParSlug } from '../data/rubriques';
+import { dateCourte, lienArticle, pluriel, signes, type Article } from '../lib/articles';
+import { typo } from '../lib/typo';
+
+interface Props {
+  articles: Article[];
+  masquerRubrique?: boolean;
+}
+const { articles, masquerRubrique = false } = Astro.props;
+
+/** La cascade : chaque texte un cran plus petit et plus serré que le précédent, comme un spécimen. */
+const TAILLES = [3.4, 2.8, 2.35, 2, 1.75, 1.55, 1.42, 1.32, 1.24];
+const LARGEURS = [112, 104, 96, 90, 85, 80, 77, 75, 75];
+const style = (i: number) => {
+  const rang = Math.min(i, TAILLES.length - 1);
+  return `--t:${TAILLES[rang]};--s:${LARGEURS[rang]}%`;
+};
+---
+
+<ol class="cascade">
+  {
+    articles.map((a, i) => (
+      <li>
+        <a class="ligne" href={lienArticle(a)} data-texte={a.id} style={style(i)}>
+          <span class="ligne-titre">
+            <span>{typo(a.data.titre)}</span>
+          </span>
+          <span class="ligne-meta">
+            {!masquerRubrique && <span class="ligne-rubrique">{rubriqueParSlug(a.data.rubrique)?.nom}</span>}
+            <span>{dateCourte(a.data.date)}</span>
+            <span>{pluriel(signes(a.body), 'signe')}</span>
+            {a.data.exemple && <span class="etat-exemple">exemple</span>}
+            {a.data.brouillon && <span class="etat-exemple">brouillon</span>}
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ol>

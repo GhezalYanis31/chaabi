@@ -1,0 +1,129 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Cascade from '../../components/Cascade.astro';
+import CitationArabe from '../../components/Citation.astro';
+import Fleche from '../../components/Fleche.astro';
+import SpecArticle from '../../components/SpecArticle.astro';
+import SpecCitation from '../../components/SpecCitation.astro';
+import { rubriqueParSlug } from '../../data/rubriques';
+import { articlesPublies, citationComplete, type Article } from '../../lib/articles';
+import { typo } from '../../lib/typo';
+
+export async function getStaticPaths() {
+  const articles = await articlesPublies();
+  return articles.map((article) => ({ params: { slug: article.id }, props: { article, tous: articles } }));
+}
+
+interface Props {
+  article: Article;
+  tous: Article[];
+}
+const { article, tous } = Astro.props;
+const d = article.data;
+const rubrique = rubriqueParSlug(d.rubrique);
+const { Content, headings } = await render(article);
+const intertitres = headings.filter((h) => h.depth === 2);
+
+// Une citation n'est affichée que si elle est complète : texte arabe, traduction et source.
+const citation = citationComplete(article);
+
+// « À lire ensuite » : d'abord la même rubrique, puis le reste.
+const autres = tous.filter((a) => a.id !== article.id);
+const suite = [
+  ...autres.filter((a) => a.data.rubrique === d.rubrique),
+  ...autres.filter((a) => a.data.rubrique !== d.rubrique),
+].slice(0, 3);
+---
+
+<Base titre={d.titre} description={d.chapo} image={d.couverture} actif={d.rubrique} type="article">
+  <article data-lu={article.id}>
+    <header class="planche article-tete">
+      <div class="cadre specimen">
+        <div>
+          <h1 class="titre-specimen moyen compose">{typo(d.titre)}</h1>
+          <p class="legende-guides" aria-hidden="true">
+            <span class="g-x">hauteur d’x</span>
+            <span class="g-base">ligne de base</span>
+          </p>
+          {d.chapo && <p class="chapo">{typo(d.chapo)}</p>}
+        </div>
+        <SpecArticle article={article} />
+      </div>
+    </header>
+
+    {
+      d.couverture && (
+        <div class="planche serree">
+          <div class="cadre">
+            <figure class="couverture-photo">
+              <img src={d.couverture} alt="" decoding="async" />
+              {d.credit_photo && <figcaption>{typo(d.credit_photo)}</figcaption>}
+            </figure>
+          </div>
+        </div>
+      )
+    }
+
+    {
+      citation && (
+        <section class="planche gris" aria-label="Citation en arabe">
+          <div class="cadre specimen">
+            <CitationArabe citation={citation} grande />
+            <SpecCitation citation={citation} />
+          </div>
+        </section>
+      )
+    }
+
+    <div class="planche">
+      <div class="cadre specimen corps-specimen">
+        <div class="spec-col">
+          {
+            intertitres.length > 0 && (
+              <nav class="sommaire" aria-label="Dans ce texte">
+                <h2>Dans ce texte</h2>
+                <ol>
+                  {intertitres.map((h) => (
+                    <li>
+                      <a href={`#${h.slug}`}>{typo(h.text)}</a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            )
+          }
+        </div>
+        <div>
+          <div class="prose article-corps">
+            <Content />
+          </div>
+          <footer class="article-pied">
+            <a class="retour" href={`/${d.rubrique}/`}>
+              <Fleche />
+              Tous les textes {rubrique?.nom}
+            </a>
+            <a href="/">
+              Accueil
+              <Fleche />
+            </a>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  {
+    suite.length > 0 && (
+      <section class="planche gris" aria-labelledby="titre-suite">
+        <div class="cadre specimen">
+          <div class="spec-titre">
+            <h2 id="titre-suite">À lire ensuite</h2>
+            <p>même rubrique d’abord</p>
+          </div>
+          <Cascade articles={suite} />
+        </div>
+      </section>
+    )
+  }
+</Base>

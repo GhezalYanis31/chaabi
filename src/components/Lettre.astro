@@ -1,0 +1,33 @@
+---
+import Spec from './Spec.astro';
+import reglages from '../data/reglages.json';
+import { typo } from '../lib/typo';
+---
+
+<section class="planche vermillon lettre" id="lettre" aria-labelledby="lettre-titre">
+  <div class="cadre specimen">
+    <div class="lettre-corps">
+      <h2 class="lettre-titre" id="lettre-titre">{typo(reglages.lettre_titre)}</h2>
+      <p class="lettre-texte">{typo(reglages.lettre_texte)}</p>
+      <!-- Formulaire géré par Netlify Forms : les inscriptions apparaissent
+           dans Netlify > Forms > « lettre », en attendant un outil d'envoi. -->
+      <form name="lettre" method="POST" action="/merci/" data-netlify="true" netlify-honeypot="champ-robot">
+        <input type="hidden" name="form-name" value="lettre" />
+        <p class="visuellement-cache">
+          <label for="lettre-robot">Ne pas remplir : <input id="lettre-robot" name="champ-robot" tabindex="-1" autocomplete="off" /></label>
+        </p>
+        <label for="lettre-email" class="visuellement-cache">Adresse e-mail</label>
+        <input id="lettre-email" name="email" type="email" required placeholder="votre@adresse.fr" autocomplete="email" />
+        <button class="bouton" type="submit">S’inscrire</button>
+        <p class="mention">Votre adresse ne sert qu’à cet envoi. <a href="/mentions-legales/#données-personnelles">Vos données</a></p>
+      </form>
+    </div>
+    <Spec
+      paires={[
+        { libelle: 'Parution', texte: 'une fois par mois' },
+        { libelle: 'Contenu', texte: 'les textes, les sorties, les dates' },
+        { libelle: 'Désinscription', texte: 'en un clic' },
+      ]}
+    />
+  </div>
+</section>

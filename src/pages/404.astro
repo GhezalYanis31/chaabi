@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Fleche from '../components/Fleche.astro';
+import Spec from '../components/Spec.astro';
+---
+
+<Base titre="Page introuvable">
+  <section class="planche">
+    <div class="cadre specimen">
+      <div class="message">
+        <h1 class="titre-specimen compose">Cette page n’existe pas, ou plus.</h1>
+        <p>Le lien est peut-être ancien, ou le texte a changé d’adresse.</p>
+        <a class="lire" href="/">
+          Retour à l’accueil
+          <Fleche />
+        </a>
+      </div>
+      <Spec paires={[{ libelle: 'Erreur', texte: '404' }]} />
+    </div>
+  </section>
+</Base>

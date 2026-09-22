@@ -1,0 +1,26 @@
+---
+import type { Citation } from '../data/citations';
+import { typo } from '../lib/typo';
+
+interface Props {
+  citation: Citation;
+  grande?: boolean;
+  /** Citation posée face au titre à la une, à égalité avec le latin. */
+  une?: boolean;
+}
+const { citation, grande = false, une = false } = Astro.props;
+
+// Un vers en deux hémistiches (« … — … ») se compose sur deux lignes.
+const vers = citation.arabe.split(/\s+—\s+/);
+---
+
+<figure class:list={['citation', { grande, 'une-citation': une }]}>
+  <blockquote class="guide-base" lang="ar" dir="rtl">{vers.map((v, i) => <Fragment>{i > 0 && <br />}{v}</Fragment>)}</blockquote>
+  <figcaption>
+    <p class="traduction">«&#8239;{typo(citation.traduction)}&#8239;»</p>
+    <p class="source">
+      <cite>{typo(citation.source)}</cite>
+      {citation.traducteur && <span>{typo(citation.traducteur)}</span>}
+    </p>
+  </figcaption>
+</figure>

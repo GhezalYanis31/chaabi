@@ -1,0 +1,200 @@
+# =====================================================================
+#  CHAABI — configuration de l'espace rédaction (/admin)
+#  Sveltia CMS — format compatible Decap CMS.
+# =====================================================================
+
+backend:
+  name: github
+  # À REMPLACER par votre dépôt GitHub : nom-du-compte/nom-du-depot
+  repo: GhezalYanis31/chaabi
+  branch: main
+  commit_messages:
+    create: "Nouvel article : {{slug}}"
+    update: "Mise à jour : {{slug}}"
+    delete: "Suppression : {{slug}}"
+    uploadMedia: "Image ajoutée : {{path}}"
+    deleteMedia: "Image supprimée : {{path}}"
+
+# Images envoyées depuis l'espace rédaction
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+# Adresses d'articles sans accents ni caractères spéciaux
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  # -------------------------------------------------------------------
+  - name: articles
+    label: Articles
+    label_singular: Article
+    description: >-
+      Une ligne vide sépare les paragraphes. Utilisez « Titre 2 » pour les intertitres
+      et « Citation » pour les exergues. Une citation arabe se met toujours avec
+      sa traduction et sa source.
+    folder: src/content/articles
+    extension: md
+    format: frontmatter
+    create: true
+    delete: true
+    identifier_field: titre
+    slug: "{{slug}}"
+    summary: "{{titre}}"
+    sortable_fields:
+      fields: [date, titre, rubrique]
+      default:
+        field: date
+        direction: descending
+    view_filters:
+      - label: Brouillons
+        field: brouillon
+        pattern: true
+      - label: Exemples
+        field: exemple
+        pattern: true
+    view_groups:
+      - label: Rubrique
+        field: rubrique
+    fields:
+      - label: Titre
+        name: titre
+        widget: string
+      - label: Rubrique
+        name: rubrique
+        widget: select
+        options:
+          - { label: Portraits, value: portraits }
+          - { label: Mode, value: mode }
+          - { label: Sport, value: sport }
+          - { label: Scènes, value: scenes }
+          - { label: Héritage, value: heritage }
+      - label: Date de publication
+        name: date
+        widget: datetime
+        format: YYYY-MM-DD
+        time_format: false
+      - label: Chapô
+        name: chapo
+        widget: text
+        required: false
+        hint: Une ou deux phrases sous le titre.
+      - label: Signature
+        name: auteur
+        widget: string
+        default: La rédaction
+      - label: Image de couverture
+        name: couverture
+        widget: image
+        required: false
+        hint: Format paysage de préférence. Sans image, la couverture affiche le motif et le nom de la rubrique.
+      - label: Crédit photo
+        name: credit_photo
+        widget: string
+        required: false
+        hint: "Ex. : Photo : Prénom Nom"
+      - label: Mettre à la une
+        name: une
+        widget: boolean
+        default: false
+        hint: L'article coché le plus récent s'affiche en grand en haut de la page d'accueil.
+      - label: Brouillon
+        name: brouillon
+        widget: boolean
+        default: false
+        hint: Coché, l'article est enregistré mais n'apparaît pas sur le site.
+      - label: Citation en arabe (facultatif)
+        name: citation
+        widget: object
+        required: false
+        collapsed: true
+        hint: >-
+          Affichée en grand avant le texte. Elle n'apparaît que si le texte arabe, la traduction
+          et la source sont tous remplis.
+        fields:
+          - label: Texte arabe
+            name: arabe
+            widget: text
+            required: false
+          - label: Traduction française
+            name: traduction
+            widget: text
+            required: false
+          - label: Source
+            name: source
+            widget: string
+            required: false
+            hint: "Ex. : Coran, sourate An-Najm (53), verset 39 — ou : Ibn Khaldûn, al-Muqaddima, livre I"
+          - label: Traducteur
+            name: traducteur
+            widget: string
+            required: false
+            hint: "Ex. : Traduction de Muhammad Hamidullah — ou : Traduction de la rédaction"
+      - label: Article d'exemple
+        name: exemple
+        widget: boolean
+        default: false
+        required: false
+        hint: Réservé aux gabarits fournis avec le site. Laissez décoché pour vos articles.
+      - label: Texte de l'article
+        name: body
+        widget: markdown
+
+  # -------------------------------------------------------------------
+  - name: pages
+    label: Pages
+    description: Les textes des pages fixes du site.
+    files:
+      - label: À propos
+        name: a-propos
+        file: src/content/pages/a-propos.md
+        fields:
+          - { label: Titre, name: titre, widget: string }
+          - { label: Sous-titre, name: chapo, widget: text, required: false }
+          - { label: Texte, name: body, widget: markdown }
+      - label: Mentions légales
+        name: mentions-legales
+        file: src/content/pages/mentions-legales.md
+        fields:
+          - { label: Titre, name: titre, widget: string }
+          - { label: Sous-titre, name: chapo, widget: text, required: false }
+          - { label: Texte, name: body, widget: markdown }
+
+  # -------------------------------------------------------------------
+  - name: reglages
+    label: Réglages
+    description: Coordonnées, réseaux sociaux et textes de la lettre.
+    files:
+      - label: Réglages du site
+        name: reglages
+        file: src/data/reglages.json
+        format: json
+        fields:
+          - label: Signature du magazine
+            name: signature
+            widget: string
+            hint: Affichée sous le nom dans le pied de page.
+          - label: Description (moteurs de recherche)
+            name: description
+            widget: text
+          - label: Adresse e-mail de contact
+            name: email
+            widget: string
+            required: false
+          - label: Compte Instagram
+            name: instagram
+            widget: string
+            required: false
+            hint: "Ex. : @chaabi.mag"
+          - label: Compte TikTok
+            name: tiktok
+            widget: string
+            required: false
+            hint: "Ex. : @chaabi.mag"
+          - label: Lettre — titre
+            name: lettre_titre
+            widget: string
+          - label: Lettre — texte
+            name: lettre_texte
+            widget: text

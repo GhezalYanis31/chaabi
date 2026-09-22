@@ -1,0 +1,183 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/literata/opsz.css';
+import '@fontsource-variable/literata/opsz-italic.css';
+import '@fontsource/amiri/400.css';
+import '@fontsource/amiri/700.css';
+import '../styles/global.css';
+
+import Entete from '../components/Entete.astro';
+import Lettre from '../components/Lettre.astro';
+import Pied from '../components/Pied.astro';
+import reglages from '../data/reglages.json';
+
+interface Props {
+  titre?: string;
+  description?: string;
+  image?: string;
+  actif?: string;
+  type?: 'website' | 'article';
+}
+
+const { titre, description, image, actif, type = 'website' } = Astro.props;
+const titreComplet = titre ? `${titre} — CHAABI` : `CHAABI — ${reglages.signature}`;
+const desc = description || reglages.description;
+const canonique = new URL(Astro.url.pathname, Astro.site);
+const imageOg = image ? new URL(image, Astro.site).href : undefined;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{titreComplet}</title>
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={canonique} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="CHAABI" href="/rss.xml" />
+    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0E0E0D" media="(prefers-color-scheme: dark)" />
+    <meta property="og:site_name" content="CHAABI" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={titre ?? 'CHAABI'} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonique} />
+    {imageOg && <meta property="og:image" content={imageOg} />}
+    <meta name="twitter:card" content={imageOg ? 'summary_large_image' : 'summary'} />
+    <script is:inline>
+      // Thème clair / sombre : appliqué avant l'affichage pour éviter un flash.
+      (function () {
+        try {
+          var t = localStorage.getItem('chaabi-theme');
+          if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="lien-evitement" href="#contenu">Aller au contenu</a>
+    <Entete actif={actif} />
+    <main id="contenu" tabindex="-1">
+      <slot />
+    </main>
+    <Lettre />
+    <Pied />
+    <script is:inline>
+      (function () {
+        // Bouton de thème
+        var b = document.getElementById('bouton-theme');
+        if (b) {
+          b.addEventListener('click', function () {
+            var root = document.documentElement;
+            var cur = root.getAttribute('data-theme');
+            var sombre = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var next = cur === 'dark' ? 'light' : cur === 'light' ? 'dark' : sombre ? 'light' : 'dark';
+            root.setAttribute('data-theme', next);
+            try { localStorage.setItem('chaabi-theme', next); } catch (e) {}
+          });
+        }
+
+        // Blancs signalés « [À compléter : …] » dans les textes : mis en évidence
+        document.querySelectorAll('.prose p, .prose li').forEach(function (el) {
+          if (!/\[À compléter[^\]]*\]/.test(el.textContent || '')) return;
+          el.innerHTML = el.innerHTML.replace(/\[(À compléter[^\]]*)\]/g, '<span class="a-completer">$1</span>');
+        });
+
+        // Paragraphes en arabe dans les articles : sens de lecture et police adaptés
+        var ar = /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/g;
+        document.querySelectorAll('.prose p, .prose li').forEach(function (el) {
+          var txt = el.textContent || '';
+          var n = (txt.match(ar) || []).length;
+          var lettres = (txt.match(/\p{L}/gu) || []).length;
+          if (n > 0 && n >= lettres / 2) {
+            el.setAttribute('dir', 'rtl');
+            el.setAttribute('lang', 'ar');
+          }
+        });
+
+        // Textes déjà lus : la page d'article s'inscrit, l'index porte la marque « lu »
+        var lus = [];
+        try { lus = JSON.parse(localStorage.getItem('chaabi-lus') || '[]'); } catch (e) {}
+        var courant = document.querySelector('[data-lu]');
+        if (courant) {
+          var id = courant.getAttribute('data-lu');
+          if (lus.indexOf(id) < 0) {
+            lus.push(id);
+            try { localStorage.setItem('chaabi-lus', JSON.stringify(lus)); } catch (e) {}
+          }
+        }
+        document.querySelectorAll('.ligne[data-texte]').forEach(function (a) {
+          if (lus.indexOf(a.getAttribute('data-texte')) < 0) return;
+          var meta = a.querySelector('.ligne-meta');
+          if (meta) meta.insertAdjacentHTML('beforeend', '<span class="marque-lu"><svg viewBox="0 0 18 14" aria-hidden="true"><path d="M1.5 7.5l4.5 4.5L16.5 1.5"></path></svg>lu</span>');
+        });
+
+        // Lignes de mesure des grands titres : ligne de base et hauteur d'x mesurées sur le rendu
+        function mesurer(el) {
+          var cs = getComputedStyle(el);
+          var sonde = function (va) {
+            var s = document.createElement('span');
+            s.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:' + va;
+            return s;
+          };
+          var a = sonde('baseline'), m = sonde('middle');
+          el.insertBefore(m, el.firstChild);
+          el.insertBefore(a, el.firstChild);
+          var haut = el.getBoundingClientRect().top + parseFloat(cs.paddingTop || 0);
+          var base = a.getBoundingClientRect().top - haut;
+          var milieu = m.getBoundingClientRect().top - haut;
+          a.remove();
+          m.remove();
+          var lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize);
+          if (base > 0 && base <= lh) {
+            el.style.setProperty('--base', base.toFixed(2) + 'px');
+            el.style.setProperty('--x', (2 * (base - milieu)).toFixed(2) + 'px');
+            el.style.setProperty('--lh', lh.toFixed(2) + 'px');
+          }
+        }
+        function mesurerTout() { document.querySelectorAll('.titre-specimen, .guide-base').forEach(mesurer); }
+        mesurerTout();
+        var minuterie;
+        window.addEventListener('resize', function () { clearTimeout(minuterie); minuterie = setTimeout(mesurerTout, 120); });
+
+        // Composition au chargement : les lignes sont figées à leur largeur finale,
+        // puis le titre passe de 72 % à 100 % de largeur sans rien déplacer autour.
+        var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+        var mouvementReduit = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+        function composer(el) {
+          if (mouvementReduit) { el.classList.add('compose-fini'); return; }
+          var cible = el.querySelector('a') || el;
+          var texte = cible.textContent;
+          el.style.fontStretch = '100%';
+          cible.innerHTML = texte.split(/( +)/).map(function (m) { return /^ +$/.test(m) ? m : '<span>' + esc(m) + '</span>'; }).join('');
+          var lignes = [], haut = null;
+          cible.querySelectorAll('span').forEach(function (s) {
+            var y = Math.round(s.getBoundingClientRect().top);
+            if (haut === null || Math.abs(y - haut) > 4) { lignes.push([]); haut = y; }
+            lignes[lignes.length - 1].push(s.textContent);
+          });
+          cible.innerHTML = lignes.map(function (l) { return '<span class="ligne-figee">' + esc(l.join(' ')) + '</span>'; }).join('');
+          el.style.fontStretch = '';
+          el.classList.add('en-composition');
+          el.addEventListener('animationend', function () {
+            cible.textContent = texte;
+            el.classList.remove('en-composition');
+            el.classList.add('compose-fini');
+            mesurer(el);
+          }, { once: true });
+        }
+        function composerTout() { document.querySelectorAll('.titre-specimen.compose:not(.compose-fini)').forEach(composer); }
+        function sansMouvement() { document.querySelectorAll('.titre-specimen.compose').forEach(function (el) { el.classList.add('compose-fini'); }); }
+        // La composition attend la police de titrage, et ne se joue que si elle arrive vite ;
+        // sinon le titre, déjà lisible à 100 %, ne bouge pas.
+        var chargement = document.fonts && document.fonts.load ? document.fonts.load('780 1em "Archivo Variable"') : Promise.reject();
+        chargement.then(function () {
+          mesurerTout();
+          if (performance.now() < 900) composerTout(); else sansMouvement();
+        }, sansMouvement);
+      })();
+    </script>
+  </body>
+</html>

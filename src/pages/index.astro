@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import Cascade from '../components/Cascade.astro';
+import CitationArabe from '../components/Citation.astro';
+import Fleche from '../components/Fleche.astro';
+import SpecArticle from '../components/SpecArticle.astro';
+import { RUBRIQUES, rubriqueParSlug } from '../data/rubriques';
+import { articlesPublies, articleALaUne, citationComplete, lienArticle, pluriel } from '../lib/articles';
+import { typo } from '../lib/typo';
+
+const articles = await articlesPublies();
+const une = articleALaUne(articles);
+const fil = articles.filter((a) => a.id !== une?.id);
+// À la une : la citation de l'article s'il en a une, sinon celle de sa rubrique.
+const citationUne = une ? (citationComplete(une) ?? rubriqueParSlug(une.data.rubrique)?.citation) : undefined;
+// Les rubriques présentées comme les styles d'une famille : de la plus étroite à la plus large.
+const LARGEURS = [62, 75, 100, 112, 125];
+---
+
+<Base>
+  {
+    une ? (
+      <section class="planche une" aria-labelledby="titre-une">
+        <div class="cadre specimen">
+          <div class="une-corps">
+            <div>
+              <h1 class="titre-specimen compose" id="titre-une">
+                <a href={lienArticle(une)}>{typo(une.data.titre)}</a>
+              </h1>
+              <p class="legende-guides" aria-hidden="true">
+                <span class="g-x">hauteur d’x</span>
+                <span class="g-base">ligne de base</span>
+              </p>
+            </div>
+            <div class="paire">
+              <div class="paire-latin">
+                {une.data.chapo && <p class="chapo">{typo(une.data.chapo)}</p>}
+                <a class="lire" href={lienArticle(une)}>
+                  Lire le texte
+                  <Fleche />
+                </a>
+              </div>
+              {citationUne && <CitationArabe citation={citationUne} une />}
+            </div>
+          </div>
+          <SpecArticle article={une} />
+        </div>
+      </section>
+    ) : (
+      <section class="planche">
+        <div class="cadre specimen">
+          <div class="message">
+            <h1 class="titre-specimen moyen">Le premier numéro arrive bientôt.</h1>
+            <p>Aucun texte n’est encore publié.</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    fil.length > 0 && (
+      <section class="planche" aria-labelledby="titre-textes">
+        <div class="cadre specimen">
+          <div class="spec-titre">
+            <h2 id="titre-textes">Les textes</h2>
+            <p>{pluriel(fil.length, 'texte')}, du plus récent au plus ancien</p>
+          </div>
+          <Cascade articles={fil} />
+        </div>
+      </section>
+    )
+  }
+
+  <section class="planche gris" aria-labelledby="titre-rubriques">
+    <div class="cadre specimen">
+      <div class="spec-titre">
+        <h2 id="titre-rubriques">Les rubriques</h2>
+        <p>{pluriel(RUBRIQUES.length, 'rubrique')}</p>
+      </div>
+      <ul class="famille">
+        {
+          RUBRIQUES.map((r, i) => (
+            <li>
+              <a href={`/${r.slug}/`}>
+                <span class="famille-nom" style={`font-stretch:${LARGEURS[i % LARGEURS.length]}%`}>
+                  {r.nom}
+                </span>
+                <span class="famille-texte">{typo(r.presentation)}</span>
+                <span class="famille-compte">{pluriel(articles.filter((a) => a.data.rubrique === r.slug).length, 'texte')}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>

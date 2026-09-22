@@ -1,0 +1,19 @@
+---
+import Spec from './Spec.astro';
+import type { Citation } from '../data/citations';
+
+interface Props {
+  citation: Citation;
+}
+const { citation } = Astro.props;
+const vocalise = /[ً-ْٰ]/.test(citation.arabe);
+---
+
+<Spec
+  paires={[
+    { libelle: 'Écriture', texte: vocalise ? 'arabe vocalisé' : 'arabe' },
+    { libelle: 'Composé en', texte: 'Amiri, naskh' },
+    { libelle: 'Lecture', texte: 'de droite à gauche' },
+    citation.traducteur ? { libelle: 'Traduction', texte: citation.traducteur.replace(/^Traduction de /, '') } : null,
+  ]}
+/>

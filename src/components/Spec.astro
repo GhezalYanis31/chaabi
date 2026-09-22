@@ -1,0 +1,35 @@
+---
+/**
+ * Colonne de données du spécimen : paires libellé / valeur.
+ * Les paires vides (false, null) sont ignorées.
+ */
+interface Paire {
+  libelle: string;
+  texte?: string;
+  lien?: string;
+  italique?: boolean;
+  arabe?: string;
+}
+interface Props {
+  paires: (Paire | false | null | undefined)[];
+}
+const paires = Astro.props.paires.filter(Boolean) as Paire[];
+---
+
+<dl class="spec">
+  {
+    paires.map((p) => (
+      <div>
+        <dt>{p.libelle}</dt>
+        <dd>
+          {p.arabe && (
+            <span lang="ar" dir="rtl" class="spec-arabe">
+              {p.arabe}
+            </span>
+          )}
+          {p.lien ? <a href={p.lien}>{p.texte}</a> : p.italique ? <span class="etat-exemple">{p.texte}</span> : p.texte}
+        </dd>
+      </div>
+    ))
+  }
+</dl>

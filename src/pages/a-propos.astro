@@ -1,0 +1,82 @@
+---
+import PageTexte from '../components/PageTexte.astro';
+import CitationArabe from '../components/Citation.astro';
+import Spec from '../components/Spec.astro';
+import SpecCitation from '../components/SpecCitation.astro';
+import { EPIGRAPHE_SITE, type Citation } from '../data/citations';
+import { RUBRIQUES } from '../data/rubriques';
+import { articlesPublies, citationComplete, lienArticle, pluriel } from '../lib/articles';
+import { typo } from '../lib/typo';
+import reglages from '../data/reglages.json';
+
+const email = reglages.email?.trim();
+
+// Index des textes cités : chaque source renvoie à la page où elle figure.
+const sources: { citation: Citation; page: string; lien?: string }[] = [
+  ...RUBRIQUES.map((r) => ({ citation: r.citation, page: r.nom, lien: `/${r.slug}/` })),
+  { citation: EPIGRAPHE_SITE, page: 'À propos, pied de page' },
+  ...(await articlesPublies()).flatMap((a) => {
+    const c = citationComplete(a);
+    return c ? [{ citation: c, page: a.data.titre, lien: lienArticle(a) }] : [];
+  }),
+];
+---
+
+<PageTexte id="a-propos" actif="a-propos">
+  <Fragment slot="spec">
+    <Spec
+      paires={[
+        { libelle: 'Nom', texte: 'CHAABI' },
+        { libelle: 'De l’arabe', arabe: 'شعبي', texte: 'chaʿbî' },
+        { libelle: 'Sens', texte: '« du peuple », commun à tous' },
+        { libelle: 'Rubriques', texte: String(RUBRIQUES.length) },
+      ]}
+    />
+  </Fragment>
+
+  <section slot="avant" class="planche gris" aria-label="Épigraphe du magazine">
+    <div class="cadre specimen">
+      <CitationArabe citation={EPIGRAPHE_SITE} grande />
+      <SpecCitation citation={EPIGRAPHE_SITE} />
+    </div>
+  </section>
+
+  <section slot="apres" class="prose contact">
+    <h2 id="nous-ecrire">Nous écrire</h2>
+    <p>
+      Pour proposer un sujet, signaler une erreur ou nous faire découvrir un travail&#8239;:{' '}
+      {email ? <a href={`mailto:${email}`}>{email}</a> : <span class="a-completer">adresse à créer</span>}.
+    </p>
+  </section>
+
+  <section slot="fin" class="planche gris" aria-labelledby="titre-sources">
+    <div class="cadre specimen">
+      <div class="spec-titre">
+        <h2 id="titre-sources">Les textes cités</h2>
+        <p>{pluriel(sources.length, 'source')}, toujours traduites</p>
+      </div>
+      <div class="tableau">
+        <table class="index-sources">
+          <thead>
+            <tr>
+              <th scope="col">Source</th>
+              <th scope="col">Traduction</th>
+              <th scope="col">Page</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              sources.map((s) => (
+                <tr>
+                  <td>{typo(s.citation.source)}</td>
+                  <td>{typo(s.citation.traducteur.replace(/^Traduction de /, ''))}</td>
+                  <td>{s.lien ? <a href={s.lien}>{typo(s.page)}</a> : s.page}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</PageTexte>
