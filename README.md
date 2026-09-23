@@ -104,6 +104,19 @@ Ils s'affichent sur le site en gris, soulignés d'une ondulation vermillon (comm
 
 ---
 
+## 4 bis. Brancher Brevo pour envoyer la newsletter
+
+Les inscriptions arrivent aujourd'hui dans Netlify → **Forms** → **lettre**. Pour envoyer les messages :
+
+1. Créez un compte gratuit sur [brevo.com](https://www.brevo.com) (jusqu'à 300 envois par jour, société européenne).
+2. Dans Brevo : **Contacts** → **Listes** → nouvelle liste, par exemple « CHAABI ».
+3. Récupérez les adresses déjà collectées : Netlify → **Forms** → **lettre** → **Download CSV**, puis importez ce fichier dans la liste Brevo.
+4. Ensuite, deux façons de faire :
+   - **Au plus simple** : gardez le formulaire actuel et réimportez le CSV avant chaque envoi.
+   - **Automatique** : dans Brevo, **Formulaires d'inscription** → créez un formulaire, copiez son adresse d'envoi (`https://….sibforms.com/serve/…`). Dans `src/components/Lettre.astro`, remplacez la valeur de `action` par cette adresse, puis supprimez `data-netlify="true"`, `netlify-honeypot` et le champ caché `form-name`. Brevo envoie alors lui-même l'e-mail de confirmation (double opt-in).
+
+Dans les deux cas, la mention du site reste exacte : l'adresse ne sert qu'à cet envoi.
+
 ## 5. Les citations arabes
 
 Règle éditoriale : l’arabe orne le texte, il ne sert jamais de jeu de mots. Chaque citation est donnée dans sa langue, traduite et sourcée.
