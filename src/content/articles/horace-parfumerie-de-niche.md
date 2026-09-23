@@ -1,7 +1,7 @@
 ---
 titre: "Horace : la parfumerie de niche à 62 euros ?"
 rubrique: mode
-date: 2026-09-21
+date: 2026-09-23
 chapo: "La marque française de soins pour hommes signe des parfums fabriqués à Grasse, avec de l’oud, de la rose de Damas et du mezcal. Est-ce de la niche ? Réponse en chiffres, et détour par un traité arabe du IXᵉ siècle."
 auteur: La rédaction
 une: false

@@ -40,19 +40,6 @@ export function tempsDeLecture(texte: string | undefined): number {
   return Math.max(1, Math.round(mots / 230));
 }
 
-/** Longueur en signes, espaces comprises : l'unité des gabarits d'écriture. */
-export function signes(texte: string | undefined): number {
-  const brut = (texte ?? '')
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
-    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
-    .replace(/^#{1,6}\s+/gm, '')
-    .replace(/^>\s?/gm, '')
-    .replace(/[*_]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
-  return Array.from(brut).length;
-}
-
 export const lienArticle = (a: Article): string => `/articles/${a.id}/`;
 
 /** Citation arabe complète (texte, traduction et source), sinon rien. */

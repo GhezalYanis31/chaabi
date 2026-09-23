@@ -5,7 +5,6 @@ import Cascade from '../../components/Cascade.astro';
 import CitationArabe from '../../components/Citation.astro';
 import Fleche from '../../components/Fleche.astro';
 import SpecArticle from '../../components/SpecArticle.astro';
-import SpecCitation from '../../components/SpecCitation.astro';
 import { rubriqueParSlug } from '../../data/rubriques';
 import { articlesPublies, citationComplete, type Article } from '../../lib/articles';
 import { typo } from '../../lib/typo';
@@ -68,9 +67,8 @@ const suite = [
     {
       citation && (
         <section class="planche gris" aria-label="Citation en arabe">
-          <div class="cadre specimen">
+          <div class="cadre">
             <CitationArabe citation={citation} grande />
-            <SpecCitation citation={citation} />
           </div>
         </section>
       )

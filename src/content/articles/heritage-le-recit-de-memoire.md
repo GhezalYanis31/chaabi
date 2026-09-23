@@ -5,7 +5,7 @@ date: 2026-09-14
 chapo: "Gabarit d'écriture pour la rubrique Héritage. Une histoire collective racontée par ceux qui l'ont vécue, 15 000 à 25 000 signes. À remplacer par votre premier récit."
 auteur: La rédaction
 une: false
-brouillon: false
+brouillon: true
 exemple: true
 ---
 

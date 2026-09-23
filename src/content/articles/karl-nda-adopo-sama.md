@@ -1,7 +1,7 @@
 ---
 titre: "Karl N’da Adopo, un éléphant né dans un garage"
 rubrique: portraits
-date: 2026-09-21
+date: 2026-09-23
 chapo: "Né en 1998, autodidacte, Karl N’da Adopo peint un éléphant de cartoon qui lui tient lieu de double. De la fresque du Rose Festival aux Abattoirs, jusqu’à la pochette d’un album de rap, portrait d’un peintre toulousain d’origine ivoirienne."
 auteur: La rédaction
 une: true

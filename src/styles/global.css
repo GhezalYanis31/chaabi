@@ -304,6 +304,7 @@ main:focus { outline: none; }
   padding-top: 20px;
 }
 .citation.une-citation blockquote { font-size: clamp(1.9rem, 3.2vw, 2.9rem); line-height: 1.9; }
+.paire:not(:has(.citation)) { grid-template-columns: minmax(0, 1fr); }
 .paire-latin { display: grid; gap: 20px; justify-items: start; }
 .chapo {
   margin: 0;

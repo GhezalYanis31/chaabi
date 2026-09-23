@@ -5,7 +5,7 @@ date: 2026-09-18
 chapo: "Gabarit d'écriture pour la rubrique Sport. Un lieu, les gens qui le font vivre, 8 000 à 12 000 signes. À remplacer par votre premier reportage."
 auteur: La rédaction
 une: false
-brouillon: false
+brouillon: true
 exemple: true
 citation:
   arabe: "عَلَى قَدْرِ أَهْلِ الْعَزْمِ تَأْتِي الْعَزَائِمُ — وَتَأْتِي عَلَى قَدْرِ الْكِرَامِ الْمَكَارِمُ"

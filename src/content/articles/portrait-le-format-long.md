@@ -5,7 +5,7 @@ date: 2026-09-21
 chapo: "Gabarit d'écriture pour la rubrique Portraits. Une rencontre, un fil conducteur, 12 000 à 18 000 signes. À remplacer par votre premier portrait."
 auteur: La rédaction
 une: true
-brouillon: false
+brouillon: true
 exemple: true
 ---
 

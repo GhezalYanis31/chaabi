@@ -5,7 +5,7 @@ date: 2026-09-20
 chapo: "Gabarit d'écriture pour la rubrique Mode. Un objet ou une collection, un contexte, 4 000 à 6 000 signes. À remplacer par votre premier article."
 auteur: La rédaction
 une: false
-brouillon: false
+brouillon: true
 exemple: true
 ---
 

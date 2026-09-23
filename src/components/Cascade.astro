@@ -1,6 +1,6 @@
 ---
 import { rubriqueParSlug } from '../data/rubriques';
-import { dateCourte, lienArticle, pluriel, signes, type Article } from '../lib/articles';
+import { dateCourte, lienArticle, tempsDeLecture, type Article } from '../lib/articles';
 import { typo } from '../lib/typo';
 
 interface Props {
@@ -29,8 +29,7 @@ const style = (i: number) => {
           <span class="ligne-meta">
             {!masquerRubrique && <span class="ligne-rubrique">{rubriqueParSlug(a.data.rubrique)?.nom}</span>}
             <span>{dateCourte(a.data.date)}</span>
-            <span>{pluriel(signes(a.body), 'signe')}</span>
-            {a.data.exemple && <span class="etat-exemple">exemple</span>}
+            <span>{tempsDeLecture(a.body)} min</span>
             {a.data.brouillon && <span class="etat-exemple">brouillon</span>}
           </span>
         </a>

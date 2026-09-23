@@ -1,7 +1,7 @@
 ---
 import Spec from './Spec.astro';
 import { rubriqueParSlug } from '../data/rubriques';
-import { dateFr, pluriel, signes, tempsDeLecture, type Article } from '../lib/articles';
+import { dateFr, tempsDeLecture, type Article } from '../lib/articles';
 
 interface Props {
   article: Article;
@@ -14,13 +14,8 @@ const d = article.data;
   paires={[
     { libelle: 'Rubrique', texte: rubriqueParSlug(d.rubrique)?.nom, lien: `/${d.rubrique}/` },
     { libelle: 'Parution', texte: dateFr(d.date) },
-    { libelle: 'Longueur', texte: pluriel(signes(article.body), 'signe') },
     { libelle: 'Lecture', texte: `${tempsDeLecture(article.body)} min` },
     { libelle: 'Signature', texte: d.auteur },
-    d.brouillon
-      ? { libelle: 'Statut', texte: 'Brouillon', italique: true }
-      : d.exemple
-        ? { libelle: 'Statut', texte: 'Exemple, gabarit à remplacer', italique: true }
-        : null,
+    d.brouillon ? { libelle: 'Statut', texte: 'Brouillon, invisible en ligne', italique: true } : null,
   ]}
 />

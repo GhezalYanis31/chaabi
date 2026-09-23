@@ -1,18 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import Cascade from '../components/Cascade.astro';
-import CitationArabe from '../components/Citation.astro';
 import Fleche from '../components/Fleche.astro';
 import SpecArticle from '../components/SpecArticle.astro';
-import { RUBRIQUES, rubriqueParSlug } from '../data/rubriques';
-import { articlesPublies, articleALaUne, citationComplete, lienArticle, pluriel } from '../lib/articles';
+import { RUBRIQUES } from '../data/rubriques';
+import { articlesPublies, articleALaUne, lienArticle, pluriel } from '../lib/articles';
 import { typo } from '../lib/typo';
 
 const articles = await articlesPublies();
 const une = articleALaUne(articles);
 const fil = articles.filter((a) => a.id !== une?.id);
-// À la une : la citation de l'article s'il en a une, sinon celle de sa rubrique.
-const citationUne = une ? (citationComplete(une) ?? rubriqueParSlug(une.data.rubrique)?.citation) : undefined;
 // Les rubriques présentées comme les styles d'une famille : de la plus étroite à la plus large.
 const LARGEURS = [62, 75, 100, 112, 125];
 ---
@@ -40,18 +37,24 @@ const LARGEURS = [62, 75, 100, 112, 125];
                   <Fleche />
                 </a>
               </div>
-              {citationUne && <CitationArabe citation={citationUne} une />}
             </div>
           </div>
           <SpecArticle article={une} />
         </div>
       </section>
     ) : (
-      <section class="planche">
-        <div class="cadre specimen">
+      <section class="planche une">
+        <div class="cadre">
           <div class="message">
-            <h1 class="titre-specimen moyen">Le premier numéro arrive bientôt.</h1>
-            <p>Aucun texte n’est encore publié.</p>
+            <h1 class="titre-specimen moyen compose">Le premier numéro arrive bientôt.</h1>
+            <p>
+              Les premiers textes sont en cours d’écriture. Inscrivez-vous à la newsletter pour être prévenu de leur
+              parution.
+            </p>
+            <a class="lire" href="#lettre">
+              S’inscrire à la newsletter
+              <Fleche />
+            </a>
           </div>
         </div>
       </section>
@@ -80,17 +83,20 @@ const LARGEURS = [62, 75, 100, 112, 125];
       </div>
       <ul class="famille">
         {
-          RUBRIQUES.map((r, i) => (
-            <li>
-              <a href={`/${r.slug}/`}>
-                <span class="famille-nom" style={`font-stretch:${LARGEURS[i % LARGEURS.length]}%`}>
-                  {r.nom}
-                </span>
-                <span class="famille-texte">{typo(r.presentation)}</span>
-                <span class="famille-compte">{pluriel(articles.filter((a) => a.data.rubrique === r.slug).length, 'texte')}</span>
-              </a>
-            </li>
-          ))
+          RUBRIQUES.map((r, i) => {
+            const n = articles.filter((a) => a.data.rubrique === r.slug).length;
+            return (
+              <li>
+                <a href={`/${r.slug}/`}>
+                  <span class="famille-nom" style={`font-stretch:${LARGEURS[i % LARGEURS.length]}%`}>
+                    {r.nom}
+                  </span>
+                  <span class="famille-texte">{typo(r.presentation)}</span>
+                  <span class="famille-compte">{n > 0 ? pluriel(n, 'texte') : 'à venir'}</span>
+                </a>
+              </li>
+            );
+          })
         }
       </ul>
     </div>

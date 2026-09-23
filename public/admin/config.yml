@@ -164,7 +164,7 @@ collections:
   # -------------------------------------------------------------------
   - name: reglages
     label: Réglages
-    description: Coordonnées, réseaux sociaux et textes de la lettre.
+    description: Coordonnées, réseaux sociaux et textes de la newsletter.
     files:
       - label: Réglages du site
         name: reglages
@@ -192,9 +192,9 @@ collections:
             widget: string
             required: false
             hint: "Ex. : @chaabi.mag"
-          - label: Lettre — titre
+          - label: Newsletter — titre
             name: lettre_titre
             widget: string
-          - label: Lettre — texte
+          - label: Newsletter — texte
             name: lettre_texte
             widget: text

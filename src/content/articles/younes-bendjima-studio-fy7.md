@@ -1,7 +1,7 @@
 ---
 titre: "Younes Bendjima : une basket pour Ghardaïa, des t-shirts pour le Yémen et la Palestine"
 rubrique: mode
-date: 2026-09-21
+date: 2026-09-23
 chapo: "Boxeur devenu mannequin, Younes Bendjima a fondé Studio FY7. Depuis 2020, son studio fait du vêtement un support de mémoire et de collecte : une basket qui cite l’Algérie, des t-shirts dont les bénéfices vont au Yémen puis à la Palestine. Un parcours raconté par ce qu’il a fabriqué."
 auteur: La rédaction
 une: false

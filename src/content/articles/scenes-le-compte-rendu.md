@@ -5,7 +5,7 @@ date: 2026-09-16
 chapo: "Gabarit d'écriture pour la rubrique Scènes. Un concert, une exposition, un festival, une soirée : 3 000 à 5 000 signes. À remplacer par votre premier compte rendu."
 auteur: La rédaction
 une: false
-brouillon: false
+brouillon: true
 exemple: true
 ---
 

@@ -23,4 +23,6 @@ La langue arabe accompagne nos textes comme un ornement et comme une mémoire. C
 
 ## La rédaction
 
-[À compléter : qui tient le magazine, depuis où, et comment proposer un sujet.]
+CHAABI est tenu par une seule personne, depuis Toulouse. Les sujets viennent de ce que nous voyons autour de nous — des rencontres, un entourage, une ville — et de ce qu'on nous propose. Un artiste, une marque, un lieu dont le travail nous intéresse : nous le disons, et nous allons voir.
+
+Pour nous proposer un sujet, écrivez à [chaabi-magazine@gmail.com](mailto:chaabi-magazine@gmail.com). Nous lisons tout ; nous répondons quand le sujet nous parle.

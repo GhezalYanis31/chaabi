@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Fleche from '../components/Fleche.astro';
-import Spec from '../components/Spec.astro';
 ---
 
 <Base titre="Merci">
@@ -9,13 +8,12 @@ import Spec from '../components/Spec.astro';
     <div class="cadre specimen">
       <div class="message">
         <h1 class="titre-specimen moyen compose">C’est noté, merci.</h1>
-        <p>Vous recevrez la prochaine lettre au début du mois.</p>
+        <p>Vous recevrez la prochaine newsletter au début du mois.</p>
         <a class="lire" href="/">
           Retour à l’accueil
           <Fleche />
         </a>
       </div>
-      <Spec paires={[{ libelle: 'La lettre', texte: 'une fois par mois' }]} />
     </div>
   </section>
 </Base>

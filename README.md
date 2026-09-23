@@ -13,8 +13,9 @@ Site statique (Astro), espace rédaction à l'adresse `/admin`, hébergement gra
 |---|---|
 | `src/content/articles/` | Les articles, un fichier par article. L'espace rédaction les écrit pour vous. |
 | `src/content/pages/` | Les textes des pages À propos et Mentions légales. |
-| `src/data/reglages.json` | E-mail de contact, comptes Instagram et TikTok, textes de la lettre. |
-| `src/data/rubriques.ts` | Les cinq rubriques et leur citation arabe. |
+| `src/data/reglages.json` | E-mail de contact, comptes Instagram et TikTok, textes de la newsletter. |
+| `src/data/rubriques.ts` | Les cinq rubriques et leur présentation. |
+| `src/data/citations.ts` | L’épigraphe du magazine (la seule citation arabe affichée d’office). |
 | `public/admin/` | L'espace rédaction (formulaire de publication). |
 | `public/images/uploads/` | Les photos envoyées depuis l'espace rédaction. |
 | `netlify.toml` | Les réglages d'hébergement. Rien à modifier. |
@@ -25,7 +26,7 @@ Les cinq rubriques : **Portraits** (les artistes, musiciens compris, y sont trai
 
 ## 2. Mettre le site en ligne (environ 20 minutes, gratuit)
 
-> **Déjà fait le 21 septembre 2026.** Le site est en ligne à <https://chaabi-magazine.netlify.app> (projet Netlify `chaabi-magazine`) et l'inscription à la lettre est active. Il reste les étapes 1 et 2 (GitHub), puis, **à la place de l'étape 3**, relier ce projet existant au dépôt : dans Netlify, ouvrez **chaabi-magazine** → **Project configuration** → **Build & deploy** → **Link repository** → **GitHub** → `chaabi`. Ensuite, chaque article enregistré dans l'espace rédaction met le site à jour tout seul. L'étape 4 est déjà faite.
+> **Déjà fait.** Le site est en ligne à <https://chaabi-magazine.netlify.app> (projet Netlify `chaabi-magazine`) et l’inscription à la newsletter est active. En attendant GitHub, le site est compilé sur l’ordinateur puis envoyé déjà prêt : la compilation à distance de Netlify échoue à l’installation des dépendances, ce qui se réglera une fois le dépôt relié. Il reste les étapes 1 et 2 (GitHub), puis, **à la place de l’étape 3**, relier ce projet existant au dépôt : dans Netlify, ouvrez **chaabi-magazine** → **Project configuration** → **Build & deploy** → **Link repository** → **GitHub** → `chaabi`, en vérifiant ensuite que le dossier publié est bien `dist`. L’étape 4 est déjà faite.
 
 Il faut deux comptes gratuits : **GitHub** (qui garde les fichiers du site) et **Netlify** (qui le publie).
 
@@ -49,7 +50,7 @@ Il faut deux comptes gratuits : **GitHub** (qui garde les fichiers du site) et *
 3. Les réglages sont lus automatiquement dans `netlify.toml`. Cliquez **Deploy**.
 4. Après une à deux minutes, le site est en ligne à une adresse du type `quelque-chose.netlify.app`. Pour la changer : **Project configuration** → **Change project name** → `chaabi` (si le nom est libre).
 
-### Étape 4 — Activer l'inscription à la lettre
+### Étape 4 — Activer l’inscription à la newsletter
 
 Dans Netlify : menu **Forms** → **Enable form detection**. Puis **Deploys** → **Trigger deploy** → **Deploy site**.
 Les adresses inscrites apparaîtront dans **Forms** → **lettre**. Vous pourrez les exporter en CSV le jour où vous choisirez un outil d'envoi (Brevo, par exemple).
@@ -84,7 +85,7 @@ Allez sur `https://votre-site.netlify.app/admin/`, choisissez **Se connecter ave
 6. **Citation en arabe (facultatif)** : elle s'affiche en grand avant le texte. Elle n'apparaît que si le texte arabe, la traduction **et** la source sont remplis.
 7. **Enregistrer**. Le site se met à jour tout seul en une à deux minutes.
 
-**Supprimer les exemples** : les cinq articles marqués « Exemple » sont des gabarits d'écriture (structure, longueur, sources). Dans **Articles**, filtrez sur **Exemples**, ouvrez chacun et supprimez-le quand vous n'en avez plus besoin.
+**Les gabarits d’écriture** : les cinq articles marqués « Exemple » sont des modèles (structure, longueur, sources). Ils sont enregistrés en **brouillon**, donc invisibles sur le site, et restent dans l’espace rédaction : ouvrez-en un pour vous en inspirer, ou dupliquez-le pour écrire par-dessus. Supprimez-les quand ils ne vous servent plus.
 
 ---
 
@@ -99,13 +100,15 @@ Ils s'affichent sur le site en gris, soulignés d'une ondulation vermillon (comm
 | Paragraphe « La rédaction » | **Pages** → À propos |
 | Responsable de la publication, e-mail | **Pages** → Mentions légales |
 | Nom de domaine (ex. `chaabi.fr`) | À acheter chez un registraire (OVH, Gandi…), puis Netlify → **Domain management** → **Add a domain** |
-| Outil d'envoi de la lettre | À choisir ; les inscriptions attendent dans Netlify → Forms |
+| Outil d’envoi de la newsletter | À choisir ; les inscriptions attendent dans Netlify → Forms |
 
 ---
 
-## 5. Les citations arabes du site
+## 5. Les citations arabes
 
-Règle éditoriale : l'arabe orne le texte, il ne sert jamais de jeu de mots. Chaque citation est donnée dans sa langue, traduite et sourcée.
+Règle éditoriale : l’arabe orne le texte, il ne sert jamais de jeu de mots. Chaque citation est donnée dans sa langue, traduite et sourcée.
+
+Le site n’en affiche plus qu’une : l’**épigraphe** du magazine (Coran 49:13), en pied de page et en tête de la page À propos. Un article peut en porter une seconde, remplie dans l’espace rédaction. Les citations ci-dessous, écrites pour les rubriques, ne sont plus affichées : elles restent ici, prêtes à servir dans un texte.
 
 | Où | Citation | Source | Traduction |
 |---|---|---|---|
@@ -117,7 +120,7 @@ Règle éditoriale : l'arabe orne le texte, il ne sert jamais de jeu de mots. Ch
 | Héritage | وَفَارَقْتُ وَطَنِي مُفَارَقَةَ الطُّيُورِ لِلْوُكُورِ | Ibn Battûta, *Rihla*, départ de Tanger | C. Defrémery et B. R. Sanguinetti |
 | Exemple Sport | عَلَى قَدْرِ أَهْلِ الْعَزْمِ تَأْتِي الْعَزَائِمُ | al-Mutanabbî, qasîda à Sayf ad-Dawla | La rédaction |
 
-Pour changer la citation d'une rubrique : fichier `src/data/rubriques.ts` (éditable directement sur GitHub, icône crayon).
+Pour changer l’épigraphe : fichier `src/data/citations.ts` (éditable directement sur GitHub, icône crayon).
 
 ---
 
