@@ -6,6 +6,8 @@ chapo: "Boxeur devenu mannequin, Younes Bendjima a fondé Studio FY7. Depuis 202
 auteur: La rédaction
 une: false
 brouillon: false
+couverture: /images/uploads/ghardaia-souk.jpg
+credit_photo: "Une rue du souk de Ghardaïa, la ville que cite la basket, en octobre 2024. Photo : Ljuba24b, [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.fr), via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:08_Ghardaia_(12).jpg)."
 exemple: false
 ---
 

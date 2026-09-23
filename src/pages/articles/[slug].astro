@@ -7,7 +7,7 @@ import Fleche from '../../components/Fleche.astro';
 import SpecArticle from '../../components/SpecArticle.astro';
 import { rubriqueParSlug } from '../../data/rubriques';
 import { articlesPublies, citationComplete, type Article } from '../../lib/articles';
-import { typo } from '../../lib/typo';
+import { liensSimples, typo } from '../../lib/typo';
 
 export async function getStaticPaths() {
   const articles = await articlesPublies();
@@ -41,10 +41,6 @@ const suite = [
       <div class="cadre specimen">
         <div>
           <h1 class="titre-specimen moyen compose">{typo(d.titre)}</h1>
-          <p class="legende-guides" aria-hidden="true">
-            <span class="g-x">hauteur d’x</span>
-            <span class="g-base">ligne de base</span>
-          </p>
           {d.chapo && <p class="chapo">{typo(d.chapo)}</p>}
         </div>
         <SpecArticle article={article} />
@@ -57,7 +53,7 @@ const suite = [
           <div class="cadre">
             <figure class="couverture-photo">
               <img src={d.couverture} alt="" decoding="async" />
-              {d.credit_photo && <figcaption>{typo(d.credit_photo)}</figcaption>}
+              {d.credit_photo && <figcaption set:html={liensSimples(typo(d.credit_photo))} />}
             </figure>
           </div>
         </div>
