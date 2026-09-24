@@ -1,11 +1,11 @@
 ---
 titre: "TUL8TE : un masque en laine, et la pop arabe qui change de mains"
 rubrique: portraits
-date: 2026-10-01
+date: 2026-09-24
 chapo: "Depuis 2022, un chanteur égyptien publie sous un masque de laine blanche. Quatre albums plus tard, ses titres prennent la première place des classements égyptiens et il collabore avec Saint Levant et Elyanna, sans que personne ne connaisse son visage. Portrait d'un anonyme qui a fait de l'anonymat une méthode."
 auteur: La rédaction
 une: false
-brouillon: true
+brouillon: false
 exemple: false
 ---
 
@@ -19,7 +19,7 @@ Celui qui le porte s'appelle TUL8TE. Il est égyptien, il publie depuis 2022, et
 
 Un premier morceau en 2022, *Model El Sana*. Puis un EP, *Maghool*, en mai 2023 — le mot veut dire « inconnu ». Ensuite, quatre albums en trois ans : *Tesh Shabab* et *Cocktail Ghena'y* en 2024, *Narein* en 2025, *Sadeek El Bernameg* en 2026, selon la discographie établie par Wikipédia. S'y ajoutent deux sessions live, dont une version jazz de *Narein*.
 
-Les résultats sont publics et vérifiables : *Ma Tegi A'adi Aleiki*, *Habibi Leh* et *El Hob Gany* ont atteint la première place des classements égyptiens ; *Layalina*, la quatrième. Grammy.com donne pour *Habeeby Leh* douze millions de vues sur YouTube, dix millions d'écoutes sur Spotify, huit millions sur Anghami et plus de 61 000 vidéos TikTok — sans budget de promotion, précise le magazine. Il a été nommé six fois au gala Billboard de la musique arabe et y a remporté son premier prix en 2024.
+Les résultats sont publics et vérifiables : *Ma Tegi A'adi Aleiki*, *Habibi Leh* et *El Hob Gany* ont atteint la première place des classements égyptiens ; *Layalina*, la quatrième. Grammy.com donne pour *Habeeby Leh* douze millions de vues sur YouTube, dix millions d'écoutes sur Spotify, huit millions sur Anghami et plus de 61 000 vidéos TikTok — sans budget de promotion, précise le magazine. Il a été nommé six fois au gala Billboard de la musique arabe et y a remporté son premier prix en 2024.
 
 Il a signé chez Vinyl Entertainment, Abu Recordings et MDLBeast Records. Il chante, joue de la guitare et du oud.
 
