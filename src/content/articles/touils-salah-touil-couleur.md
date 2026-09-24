@@ -1,11 +1,11 @@
 ---
 titre: "Touils, le peintre qui travaillait à six ans"
 rubrique: portraits
-date: 2026-10-08
+date: 2026-09-24
 chapo: "Salaheddine Touil est né à Oujda en 1995. Il a travaillé dès l'enfance au lieu d'aller à l'école, il est parti à dix-huit ans pour Lille, et il n'a jamais appris la peinture dans une école. Il expose aujourd'hui à Londres de grands formats saturés de lumière, peints depuis Dubaï. Portrait d'une trajectoire qui passe par la couleur."
 auteur: La rédaction
 une: false
-brouillon: true
+brouillon: false
 exemple: false
 ---
 
@@ -31,7 +31,7 @@ Son travail avance par séries : les lacs, le Japon, le monde arabe, l'Afrique. 
 
 Sa première exposition personnelle au Royaume-Uni, *True Colours*, s'est tenue à la Maddox Gallery de Londres du 10 mai au 9 juin 2024. Il y revient du 20 février au 25 avril 2025 avec une collection née de son installation à Dubaï : paysages et portraits des Émirats, palette resserrée sur les blancs et les tons de terre, architecture de mosquées, un tapis en train d'être tissé. Une nouvelle exposition personnelle, *Between Landscape and Memory*, est née d'un voyage au Kenya et en Tanzanie ; nous n'avons pas pu en vérifier les dates.
 
-La galerie situe ses œuvres entre 10 000 et plus de 100 000 livres. Ce chiffre est public, et il dit quelque chose : un autodidacte d'Oujda a atteint, à trente ans, le marché de Mayfair.
+La galerie situe ses œuvres entre 10 000 et plus de 100 000 livres. Ce chiffre est public, et il dit quelque chose : un autodidacte d'Oujda a atteint, à trente ans, le marché de Mayfair.
 
 ## Ce que ça dit
 
