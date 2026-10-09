@@ -140,11 +140,12 @@ Pour changer l’épigraphe : fichier `src/data/citations.ts` (éditable directe
 ## 6. Pour les développeurs
 
 ```bash
-npm install
+npm ci           # installe les dépendances sans toucher au verrou de versions
 npm run dev      # http://localhost:4321 — les brouillons y sont visibles
 npm run build    # génère le site dans dist/
 ```
 
+- Node.js est installé sur le poste de la rédaction (v24). Utilisez `npm ci` et non `npm install` : `npm install` réécrit `package-lock.json`, et un verrou réécrit a déjà fait échouer la compilation de Netlify. Netlify, lui, compile avec Node 22 (voir `netlify.toml` et `.nvmrc`).
 - Astro 7, contenus en Markdown (collections `articles` et `pages`).
 - Espace rédaction : [Sveltia CMS](https://sveltiacms.app) (configuration compatible Decap CMS) dans `public/admin/`.
 - Polices hébergées avec le site (Fontsource) : Archivo (titres, axe de largeur), Literata (texte), Amiri (arabe). Aucun appel à Google Fonts.
